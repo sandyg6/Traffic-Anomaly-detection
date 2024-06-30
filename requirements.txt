@@ -1,0 +1,6 @@
+Flask
+requests
+pandas
+pickle
+numpy
+Scikit-learn
