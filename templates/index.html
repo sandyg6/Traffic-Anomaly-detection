@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Density Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        select,
+        input[type="number"],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #prediction-result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9e9e9;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Traffic Anomaly Detection in Cities</h1>
+    <form id="prediction-form">
+        <label for="City">City:</label>
+        <select name="City" id="City">
+            {% for city in cities %}
+            <option value="{{ city }}">{{ city }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Vehicle Type">Vehicle Type:</label>
+        <select name="Vehicle Type" id="Vehicle Type">
+            {% for vehicle_type in vehicle_types %}
+            <option value="{{ vehicle_type }}">{{ vehicle_type }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Weather">Weather:</label>
+        <select name="Weather" id="Weather">
+            {% for weather in weather_conditions %}
+            <option value="{{ weather }}">{{ weather }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Economic Condition">Economic Condition:</label>
+        <select name="Economic Condition" id="Economic Condition">
+            {% for condition in economic_conditions %}
+            <option value="{{ condition }}">{{ condition }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Day Of Week">Day Of Week:</label>
+        <select name="Day Of Week" id="Day Of Week">
+            {% for day in days_of_week %}
+            <option value="{{ day }}">{{ day }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="Hour Of Day">Hour Of Day:</label>
+        <input type="number" name="Hour Of Day" min="0" max="23" value="8"><br>
+
+        <label for="Speed">Speed:</label>
+        <input type="number" name="Speed" min="0" max="100" value="30"><br>
+
+        <label for="Energy Consumption">Energy Consumption:</label>
+        <input type="number" name="Energy Consumption" min="0" max="100" value="15"><br>
+
+        <label for="Is Peak Hour">Is Peak Hour:</label>
+        <select name="Is Peak Hour">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <label for="Random Event Occurred">Random Event Occurred:</label>
+        <select name="Random Event Occurred">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    <div id="prediction-result"></div>
+
+    <script>
+        document.getElementById('prediction-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/predict', true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var resultDiv = document.getElementById('prediction-result');
+                    resultDiv.innerHTML = 'Predicted Traffic Density: ' + response['Predicted Traffic Density'];
+                    resultDiv.style.display = 'block';
+                }
+            };
+            xhr.send(formData);
+        });
+    </script>
+</body>
+</html>
