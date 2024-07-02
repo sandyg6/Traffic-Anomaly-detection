@@ -1,4 +1,4 @@
-# Traffic Anomaly detection🚘🚦
+# Traffic Density detection🚘🚦
 
 ### Description
 This project predicts traffic density in urban areas using various features such as city, vehicle type, weather conditions, and more. It utilizes machine learning to provide accurate predictions, helping city planners and traffic management authorities make informed decisions.
